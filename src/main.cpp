@@ -14,12 +14,28 @@ struct Abc
 
 int main()
 {
-    std::cout << "hello world!" << std::endl;
-    Abc* ptr = new Abc(1, 2);
+    ctm::unique_ptr<Abc> p(new Abc(1, 2));
 
-    ctm::default_delete<Abc> dd;
+    if (p)
+    {
+        std::cout << "p has an active pointer" << std::endl;
+    }
+    else
+    {
+        std::cout << "p is nullptr" << std::endl;
+    }
 
-    dd(ptr);
+    p.reset();
+    std::cout << "p is resetted." << std::endl;
+
+    if (p)
+    {
+        std::cout << "p has an active pointer" << std::endl;
+    }
+    else
+    {
+        std::cout << "p is nullptr" << std::endl;
+    }
 
     return 0;
 }

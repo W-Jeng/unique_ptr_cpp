@@ -1,5 +1,7 @@
 #pragma once
 
+#include<iostream>
+
 namespace ctm
 {
 template <class T>
@@ -14,6 +16,7 @@ struct default_delete
     void operator()(T* ptr) const
     {
         delete ptr;
+        std::cout << "Deleted the pointer!" << std::endl;
     }
 
     template<class U>
