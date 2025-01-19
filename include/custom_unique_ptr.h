@@ -12,6 +12,7 @@ class unique_ptr
 public:
     using element_type = T;
     using pointer = T*;
+    using deleter_type = Deleter;
 
     constexpr unique_ptr() noexcept = default;
 
@@ -77,6 +78,13 @@ public:
         ptr_ = ptr;
     }
 
+    void swap(unique_ptr& other) noexcept
+    {
+        T* temp = ptr_;
+        ptr_ = other.ptr_;
+        other.ptr_ = temp;
+    }
+
     explicit operator bool() const noexcept
     {
         return ptr_ != nullptr;
@@ -92,8 +100,14 @@ public:
         return ptr_;
     }
 
+    T& operator[](std::size_t i) const
+    {
+        return get()[i];
+    }
+
 private:
     T* ptr_ = nullptr;
     Deleter deleter;
 };
+
 }
