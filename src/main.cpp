@@ -10,6 +10,11 @@ struct Abc
     Abc(int a_, int b_):
         a(a_),
         b(b_) {}
+
+    void do_something()
+    {
+        std::cout << "do something" << std::endl;
+    }
 };
 
 int main()
@@ -25,17 +30,7 @@ int main()
         std::cout << "p is nullptr" << std::endl;
     }
 
-    p.reset();
-    std::cout << "p is resetted." << std::endl;
-
-    if (p)
-    {
-        std::cout << "p has an active pointer" << std::endl;
-    }
-    else
-    {
-        std::cout << "p is nullptr" << std::endl;
-    }
+    p -> do_something();
 
     return 0;
 }

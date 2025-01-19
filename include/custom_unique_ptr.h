@@ -2,6 +2,7 @@
 
 #include "custom_default_delete.h"
 #include <cstddef>
+#include <type_traits>
 
 namespace ctm
 {
@@ -27,6 +28,11 @@ public:
 
     unique_ptr(const unique_ptr& u) = delete;
 
+    ~unique_ptr()
+    {
+        deleter(ptr_);
+    }
+
     unique_ptr& operator=(unique_ptr&& r) noexcept
     {
         reset(r.ptr_);
@@ -43,9 +49,11 @@ public:
 
     unique_ptr& operator=(const unique_ptr& u) = delete;
 
-    ~unique_ptr()
+    pointer release() noexcept
     {
-        deleter(ptr_);
+        T* temp = ptr_;
+        ptr_ = nullptr;
+        return temp;
     }
 
     pointer get() const noexcept
@@ -72,6 +80,16 @@ public:
     explicit operator bool() const noexcept
     {
         return ptr_ != nullptr;
+    }
+
+    typename std::add_lvalue_reference<T>::type operator*() const noexcept(noexcept(*std::declval<pointer>()))
+    {
+        return *ptr_;
+    }
+
+    pointer operator->() const noexcept
+    {
+        return ptr_;
     }
 
 private:
