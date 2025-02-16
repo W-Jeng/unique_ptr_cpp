@@ -32,5 +32,7 @@ int main()
 
     p -> do_something();
 
+    auto z = ctm::make_unique<Abc>(2, 3);
+
     return 0;
 }
